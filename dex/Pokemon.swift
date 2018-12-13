@@ -51,7 +51,9 @@ extension Pokemon {
     
     static func list() -> Promise<[ListItem]> {
         return Promise { seal in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             Alamofire.request("\(apiUrl)/pokemon").responseJSON { response in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -67,7 +69,9 @@ extension Pokemon {
     
     static func fetch(_ listItem: Pokemon.ListItem) -> Promise<Pokemon> {
         return Promise { seal in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             Alamofire.request(listItem.url).responseJSON { response in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
